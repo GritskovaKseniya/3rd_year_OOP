@@ -2,7 +2,7 @@
 #include <string>
 
 //#include "ExpressionAnalyzer.h"
-#include "ExpressionAnalyzerSt.h"
+#include "header/ExpressionAnalyzerSt.h"
 
 using namespace std;
 

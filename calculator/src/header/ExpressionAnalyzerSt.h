@@ -14,7 +14,7 @@ public:
     
     /// Возвращает значение, показывающее, есть ли ошибка
     bool is_error();
-    
+
     /// Возвращает число
     double get_result();
     
@@ -37,20 +37,34 @@ class Token
     TokenType type;
 public:
     // TODO
-};
 
+    bool is_number();
+
+    bool is_empty();
+
+    bool is_oper();
+
+    double get_number();
+
+    char get_oper();
+
+    string debug();
+};
 
 /// Разбивает строку на токены
 class Tokenizer
 {
-public:
-    /// Конструирует новый объект - при этом запоминается строка для разбора
-    Tokenizer(string expr);
-    
-    /// Возвращает следующий токен из запомненной строки.
-    /// Если строка кончилась, возвращает пустой токен token.is_empty()=true
-    /// Если в строке ерунда - возвращает токен с type=UNKNOWN
-    Token next_token();
+    public:
+        /// Конструирует новый объект - при этом запоминается строка для разбора
+        Tokenizer(string expr);
+        
+        /// Возвращает следующий токен из запомненной строки.
+        /// Если строка кончилась, возвращает пустой токен token.is_empty()=true
+        /// Если в строке ерунда - возвращает токен с type=UNKNOWN
+        Token next_token();
+
+    private:
+        string expression;
 };
 
 
