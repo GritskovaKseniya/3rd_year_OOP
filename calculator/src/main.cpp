@@ -1,44 +1,42 @@
 #include <iostream>
 #include <string>
 
-//#include "ExpressionAnalyzer.h"
 #include "header/ExpressionAnalyzerSt.h"
 
-using namespace std;
+// using namespace std;
 
 // Отладка токенайзера
-void TestTokenizer(string expr);
-
+void TestTokenizer(std::string expr);
 
 int main()
 {
-    cout << "Input expression: ";
-    string expr;
-    getline(cin, expr);
+    std::cout << "Input expression: ";
+    std::string expr;
+    getline(std::cin, expr);
     
     //TestTokenizer(expr);
     ParseResult result = eval(expr);
     
     if (result.is_error())
     {
-        cout << "ERROR: " << result.get_error() << endl;
+        std::cout << "ERROR: " << result.get_error() << std::endl;
     }
     else
     {     
-        cout << "Result is " << result.get_result() << endl;
+        std::cout << "Result is " << result.get_result() << std::endl;
     }
     
     return 0;
 }
 
-void TestTokenizer(string expr)
+void TestTokenizer(std::string expr)
 {
     Tokenizer test = Tokenizer(expr);
     bool exit = false;
     while(!exit)
     {
         Token t = test.next_token();
-        cout << t.debug() << endl;
+        std::cout << t.debug() << std::endl;
         
         exit = t.is_empty();
     }

@@ -1,25 +1,33 @@
+#ifndef ExpressionAnalyzerSt
+#define ExpressionAnalyzerSt
+
 #include <string>
 
-using namespace std;
+// using namespace std;
 
 /// Результат разбора выражения - число либо текст ошибки
 class ParseResult
 {
-public:
-    /// Конструирует корректный результат (число)
-    ParseResult(double result);
-    
-    /// Конструирует ошибочный результат
-    ParseResult(string error);
-    
-    /// Возвращает значение, показывающее, есть ли ошибка
-    bool is_error();
+    public:
+        /// Конструирует корректный результат (число)
+        ParseResult(double result);
+        
+        /// Конструирует ошибочный результат
+        ParseResult(std::string error);
+        
+        /// Возвращает значение, показывающее, есть ли ошибка
+        bool is_error();
 
-    /// Возвращает число
-    double get_result();
+        /// Возвращает число
+        double get_result();
+        
+        /// Возвращает текст ошибки
+        std::string get_error();
+    private:
     
-    /// Возвращает текст ошибки
-    string get_error();
+        double result;
+
+        std::string error;
 };
 
 /// Типы токенов - перечисление, где каждому имени компилятором автоматически сопоставляется целое число.
@@ -34,21 +42,38 @@ enum TokenType
 /// Токен (лексема, слово) - число, строка, пусто либо не пойми что.
 class Token
 {
-    TokenType type;
-public:
-    // TODO
+    public:
 
-    bool is_number();
+        Token();
+        
+        Token(double number);
 
-    bool is_empty();
+        Token(char operation);
 
-    bool is_oper();
+        Token(std::string unknown);
 
-    double get_number();
+        bool is_number();
 
-    char get_oper();
+        bool is_empty();
 
-    string debug();
+        bool is_oper();
+
+        double get_number();
+
+        char get_oper();
+
+        std::string debug();
+    
+    private:
+
+        TokenType type;
+
+        double number_value;
+
+        char operation_value;
+
+        std::string unknown_value; 
+
 };
 
 /// Разбивает строку на токены
@@ -56,7 +81,7 @@ class Tokenizer
 {
     public:
         /// Конструирует новый объект - при этом запоминается строка для разбора
-        Tokenizer(string expr);
+        Tokenizer(std::string expr);
         
         /// Возвращает следующий токен из запомненной строки.
         /// Если строка кончилась, возвращает пустой токен token.is_empty()=true
@@ -64,7 +89,8 @@ class Tokenizer
         Token next_token();
 
     private:
-        string expression;
+
+        std::string expression;
 };
 
 
@@ -90,7 +116,7 @@ bool apply_op(char op, double num1, double num2, double* result)
 
 
 /// Разбирает арифметическое выражение и считает результат
-ParseResult eval(string expr)
+ParseResult eval(std::string expr)
 {
     /*
      * Грамматика
@@ -143,10 +169,11 @@ ParseResult eval(string expr)
         char op = op_token.get_oper();                
         if (!apply_op(op, result, num_token.get_number(), &result))
         {
-            return ParseResult(string("Unknown operator ") + op);
+            return ParseResult(std::string("Unknown operator ") + op);
         }
     }
     
     return ParseResult(result);
 }
 
+#endif
