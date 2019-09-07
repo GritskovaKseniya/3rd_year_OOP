@@ -26,11 +26,11 @@ bool Token::is_empty() {
 }
 
 bool Token::is_number() {
-    return this->type = NUMBER;
+    return this->type == NUMBER;
 }
 
 bool Token::is_oper() {
-    return this->type = OPER;
+    return this->type == OPER;
 }
 
 double Token::get_number() {
@@ -42,5 +42,30 @@ char Token::get_oper() {
 }
 
 std::string Token::debug() {
-    return this->unknown_value;
+    std::string type_str = "";
+    std::string value_str = "";
+
+    switch (this->type)
+    {
+    case NUMBER:
+        type_str = "NUMBER";
+        value_str = std::to_string(number_value);
+        break;
+
+    case OPER:
+        type_str = "OPERATION";
+        value_str = std::to_string(operation_value);
+        break;
+
+    case EMPTY:
+        type_str = "EMPTY";
+        break;
+
+    default:
+        type_str = "UNKNOWN";
+        value_str = unknown_value;
+        break;
+    }
+
+    return "Token type: " + type_str + ". Value: " + value_str;
 }
