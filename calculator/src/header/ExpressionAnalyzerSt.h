@@ -91,6 +91,8 @@ class Tokenizer
     private:
 
         std::string expression;
+
+        int position;
 };
 
 
