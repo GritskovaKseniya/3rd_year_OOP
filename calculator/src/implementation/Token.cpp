@@ -54,7 +54,7 @@ std::string Token::debug() {
 
     case OPER:
         type_str = "OPERATION";
-        value_str = std::to_string(operation_value);
+        value_str.push_back(operation_value);
         break;
 
     case EMPTY:
