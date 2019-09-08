@@ -48,7 +48,7 @@ Token Tokenizer::next_token() {
         if (
             (token_type == NUMBER)
             && (
-                (symbol < '0' || symbol > '9' )
+                ((symbol < '0' || symbol > '9') && symbol != '.' )
                 || (symbol == '.' && has_fractional_part)
             )
         ) {
@@ -62,6 +62,15 @@ Token Tokenizer::next_token() {
             && symbol <= '9'
         ) {
             break;
+        }
+
+        // Here we sure that token still valid
+        // If NUMBER and symbol is '.' then we mark that token has fracrional part
+        if(
+            token_type == NUMBER
+            && symbol == '.'
+        ) {
+            has_fractional_part = true;
         }
 
         position++;
