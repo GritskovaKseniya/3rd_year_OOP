@@ -9,7 +9,7 @@ Tokenizer::Tokenizer(std::string expr) {
 
 Token Tokenizer::next_token() {
 
-    if (position == expression.size()) {
+    if (position >= expression.size()) {
         return Token();
     }
     
