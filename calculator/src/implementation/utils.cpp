@@ -2,6 +2,8 @@
 
 #include "../header/ExpressionAnalyzerSt.h"
 
+ParseResult get_number(Tokenizer* tokenizer);
+
 ParseResult eval(std::string expr)
 {
     /*
@@ -22,13 +24,13 @@ ParseResult eval(std::string expr)
     Tokenizer tok = Tokenizer(expr);    
     
     // Первый токен должен быть числом
-    Token t1 = tok.next_token();
-    if (!t1.is_number())
+    ParseResult t1 = get_number(&tok);
+    if (t1.is_error())
     {
         return ParseResult("Expected number");
     }
     
-    double result = t1.get_number();
+    double result = t1.get_result();
     
     // В цикле обрабатываем последующие сложения и вычитания
     while(true)
@@ -45,15 +47,15 @@ ParseResult eval(std::string expr)
             return ParseResult("Expected operator");
         }
         
-        Token num_token = tok.next_token();
-        if (!num_token.is_number())
+        ParseResult num_token = get_number(&tok);
+        if (num_token.is_error())
         {
             return ParseResult("Expected number");
         }
         
         // Применяем оператор + или - к разобранным числам.
         char op = op_token.get_oper();                
-        if (!apply_op(op, result, num_token.get_number(), &result))
+        if (!apply_op(op, result, num_token.get_result(), &result))
         {
             return ParseResult(std::string("Unknown operator ") + op);
         }
@@ -78,4 +80,30 @@ bool apply_op(char op, double num1, double num2, double* result)
     }
     
     return true;
+}
+
+ParseResult get_number(Tokenizer* tokenizer) {
+    Token token = tokenizer -> next_token();
+
+    if (token.is_empty()) {
+        return ParseResult("END OF EXPRESSION");
+    }
+    
+    if (token.is_number()) {
+        return ParseResult(token.get_number());
+    }
+
+    if (!token.is_oper()) {
+        return ParseResult("Expected number");
+    }
+
+    int multipl = token.get_oper() == '+' ? 1 : -1;
+
+    token = tokenizer -> next_token();
+
+    if (!token.is_number()) {
+        return ParseResult("Expected number");
+    }
+
+    return ParseResult(token.get_number() * multipl);
 }
