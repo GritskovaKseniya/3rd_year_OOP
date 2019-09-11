@@ -84,17 +84,13 @@ bool apply_op(char op, double num1, double num2, double* result)
 
 ParseResult get_number(Tokenizer* tokenizer) {
     Token token = tokenizer -> next_token();
-
-    if (token.is_empty()) {
-        return ParseResult("END OF EXPRESSION");
-    }
     
+    if (!(token.is_number() || token.is_oper())) {
+        return ParseResult("Expected number");
+    }
+
     if (token.is_number()) {
         return ParseResult(token.get_number());
-    }
-
-    if (!token.is_oper()) {
-        return ParseResult("Expected number");
     }
 
     int multipl = token.get_oper() == '+' ? 1 : -1;
