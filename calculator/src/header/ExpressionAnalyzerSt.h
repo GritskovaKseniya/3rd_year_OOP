@@ -88,9 +88,13 @@ class Tokenizer
         /// Если в строке ерунда - возвращает токен с type=UNKNOWN
         Token next_token();
 
+        Token last_token();
+
     private:
 
         std::string expression;
+
+        Token last;
 
         int position;
 };

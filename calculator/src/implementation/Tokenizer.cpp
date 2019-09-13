@@ -10,7 +10,8 @@ Tokenizer::Tokenizer(std::string expr) {
 Token Tokenizer::next_token() {
 
     if (position >= expression.size()) {
-        return Token();
+        last = Token();
+        return last;
     }
     
     // Init token
@@ -25,8 +26,13 @@ Token Tokenizer::next_token() {
 
     int start_position = position-1;
 
-    if (symbol == '+' || symbol == '-') {
-        return Token(symbol);
+    if (symbol == '+'
+        || symbol == '-'
+        || symbol == '*'
+        || symbol == '/'
+    ) {
+        last = Token(symbol);
+        return last;
     }
 
     TokenType token_type = (symbol >= '0' && symbol <= '9') ? NUMBER : UNKNOWN;
@@ -40,7 +46,11 @@ Token Tokenizer::next_token() {
 
         // If symbol is OPER then EoC
         // OPER is a single symbol. It means that previous symbols was another Token
-        if (symbol == '+' || symbol == '-') {
+        if (symbol == '+'
+            || symbol == '-'
+            || symbol == '*'
+            || symbol == '/'
+        ) {
             break;
         }
 
@@ -81,12 +91,18 @@ Token Tokenizer::next_token() {
     switch (token_type)
     {
     case NUMBER:
-        return Token(::atof(expression.substr(start_position, position - start_position).c_str()));
+        last = Token(::atof(expression.substr(start_position, position - start_position).c_str()));
+        return last;
         break;
 
     case UNKNOWN:
-        return Token(expression.substr(start_position, position - start_position));
+        last = Token(expression.substr(start_position, position - start_position));
+        return last;
         break;
     }
     
+}
+
+Token Tokenizer::last_token() {
+    return last;
 }

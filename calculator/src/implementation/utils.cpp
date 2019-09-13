@@ -4,6 +4,8 @@
 
 ParseResult get_number(Tokenizer* tokenizer);
 
+ParseResult read_term(Tokenizer* tokenizer);
+
 ParseResult eval(std::string expr)
 {
     /*
@@ -24,10 +26,10 @@ ParseResult eval(std::string expr)
     Tokenizer tok = Tokenizer(expr);    
     
     // Первый токен должен быть числом
-    ParseResult t1 = get_number(&tok);
+    ParseResult t1 = read_term(&tok);
     if (t1.is_error())
     {
-        return ParseResult("Expected number");
+        return t1;
     }
     
     double result = t1.get_result();
@@ -35,7 +37,7 @@ ParseResult eval(std::string expr)
     // В цикле обрабатываем последующие сложения и вычитания
     while(true)
     {
-        Token op_token = tok.next_token();
+        Token op_token = tok.last_token();
         if (op_token.is_empty())
         {
             // Если вместо оператора +,- получаем пустой токен, то это признак
@@ -46,16 +48,16 @@ ParseResult eval(std::string expr)
         {
             return ParseResult("Expected operator");
         }
-        
-        ParseResult num_token = get_number(&tok);
-        if (num_token.is_error())
+         
+        ParseResult term = read_term(&tok);
+        if (term.is_error())
         {
-            return ParseResult("Expected number");
+            return term;
         }
         
         // Применяем оператор + или - к разобранным числам.
         char op = op_token.get_oper();                
-        if (!apply_op(op, result, num_token.get_result(), &result))
+        if (!apply_op(op, result, term.get_result(), &result))
         {
             return ParseResult(std::string("Unknown operator ") + op);
         }
@@ -66,17 +68,23 @@ ParseResult eval(std::string expr)
 
 bool apply_op(char op, double num1, double num2, double* result)
 {
-    if (op == '+')
+    switch (op)
     {
+    case '+':
         *result = num1 + num2;
-    }
-    else if (op == '-')
-    {
+        break;
+    case '-':
         *result = num1 - num2;
-    }
-    else
-    {
+        break;
+    case '*':
+        *result = num1 * num2;
+        break;
+    case '/':
+        *result = num1 / num2;
+        break;
+    default:
         return false;
+        break;
     }
     
     return true;
@@ -93,7 +101,13 @@ ParseResult get_number(Tokenizer* tokenizer) {
         return ParseResult(token.get_number());
     }
 
-    int multipl = token.get_oper() == '+' ? 1 : -1;
+    char oper = token.get_oper();
+
+    if (oper != '+' && oper != '-') {
+        return ParseResult("Expected '+' or '-'");
+    }
+
+    int multipl = oper == '+' ? 1 : -1;
 
     token = tokenizer -> next_token();
 
@@ -102,4 +116,52 @@ ParseResult get_number(Tokenizer* tokenizer) {
     }
 
     return ParseResult(token.get_number() * multipl);
+}
+
+ParseResult read_term(Tokenizer* tokenizer) {
+    ParseResult num = get_number(tokenizer);
+
+    if (num.is_error()) {
+        return num;
+    }
+
+    double result = num.get_result();
+
+    Token operation_token = tokenizer -> next_token();
+
+    if (operation_token.is_empty()) {
+        return ParseResult(result);
+    }
+    
+    if (!operation_token.is_oper()) {
+        return ParseResult("Expected opeation");
+    }
+
+    char oper = operation_token.get_oper();;
+
+    while (oper == '*' || oper == '/')
+    {
+        num = get_number(tokenizer);
+        
+        if (num.is_error()) {
+            return num;
+        }
+
+        apply_op(oper, result, num.get_result(), &result);
+
+        operation_token = tokenizer -> next_token();
+
+        if (operation_token.is_empty()) {
+            return ParseResult(result);
+        }        
+
+        if (!operation_token.is_oper()) {
+            return ParseResult("Expected operation");
+        }
+
+        oper = operation_token.get_oper();
+    }
+
+    return ParseResult(result);
+    
 }
