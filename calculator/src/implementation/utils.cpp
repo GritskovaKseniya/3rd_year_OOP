@@ -6,14 +6,22 @@ ParseResult get_number(Tokenizer* tokenizer);
 
 ParseResult read_term(Tokenizer* tokenizer);
 
+ParseResult read_number_or_brackets(Tokenizer* tokenizer);
+
+ParseResult eval(std::string expr);
+
+ParseResult eval(Tokenizer* tokenizer);
+
 ParseResult eval(std::string expr)
 {
     /*
      * Грамматика
      * 
-     * Expression = Number [op Number]*
+     * Expression = Term [op Term]*
      * op = '+' | '-'
-     * Number = Digit+[.Digit+]
+     * Term = NumberOR ['*' | '/' NumberOR]
+     * NumberOR = Number | '('Expression')'
+     * Number = ['+' | '-']Digit+[.Digit+]
      * Digit = '0' | '1' | ... | '8' | '9'
      * 
      * (где [] - необязательная часть выражения
@@ -23,10 +31,16 @@ ParseResult eval(std::string expr)
     */
     
     // Токенайзер считывает строку "по словам (лексемам)"
-    Tokenizer tok = Tokenizer(expr);    
-    
-    // Первый токен должен быть числом
-    ParseResult t1 = read_term(&tok);
+    Tokenizer tok = Tokenizer(expr);
+    ParseResult result = eval(&tok);
+    tok.push_back();
+
+    return tok.next_token().is_empty() ? result : ParseResult("Error");
+}
+
+ParseResult eval(Tokenizer* tokenizer) {
+    ParseResult t1 = read_term(tokenizer);
+
     if (t1.is_error())
     {
         return t1;
@@ -37,19 +51,25 @@ ParseResult eval(std::string expr)
     // В цикле обрабатываем последующие сложения и вычитания
     while(true)
     {
-        Token op_token = tok.last_token();
-        if (op_token.is_empty())
+        Token op_token = tokenizer->next_token();
+
+        if (
+            op_token.is_empty()    
+            || (op_token.is_bracket() && op_token.get_bracket() == ')')
+        )
         {
             // Если вместо оператора +,- получаем пустой токен, то это признак
             // конца обрабатываемой строки. Выходим из цикла и формируем результат.
             break;
         }
+
         if (!op_token.is_oper())
         {
             return ParseResult("Expected operator");
         }
          
-        ParseResult term = read_term(&tok);
+        ParseResult term = read_term(tokenizer);
+
         if (term.is_error())
         {
             return term;
@@ -62,7 +82,7 @@ ParseResult eval(std::string expr)
             return ParseResult(std::string("Unknown operator ") + op);
         }
     }
-    
+
     return ParseResult(result);
 }
 
@@ -92,13 +112,13 @@ bool apply_op(char op, double num1, double num2, double* result)
 
 ParseResult get_number(Tokenizer* tokenizer) {
     Token token = tokenizer -> next_token();
-    
-    if (!(token.is_number() || token.is_oper())) {
-        return ParseResult("Expected number");
-    }
 
     if (token.is_number()) {
         return ParseResult(token.get_number());
+    }
+    
+    if (!token.is_oper()) {
+        return ParseResult("Expected number");
     }
 
     char oper = token.get_oper();
@@ -119,7 +139,7 @@ ParseResult get_number(Tokenizer* tokenizer) {
 }
 
 ParseResult read_term(Tokenizer* tokenizer) {
-    ParseResult num = get_number(tokenizer);
+    ParseResult num = read_number_or_brackets(tokenizer);
 
     if (num.is_error()) {
         return num;
@@ -129,7 +149,10 @@ ParseResult read_term(Tokenizer* tokenizer) {
 
     Token operation_token = tokenizer -> next_token();
 
-    if (operation_token.is_empty()) {
+    if (
+        operation_token.is_empty()
+        || (operation_token.is_bracket() && operation_token.get_bracket() == ')')
+    ) {
         return ParseResult(result);
     }
     
@@ -141,7 +164,7 @@ ParseResult read_term(Tokenizer* tokenizer) {
 
     while (oper == '*' || oper == '/')
     {
-        num = get_number(tokenizer);
+        num = read_number_or_brackets(tokenizer);
         
         if (num.is_error()) {
             return num;
@@ -152,6 +175,7 @@ ParseResult read_term(Tokenizer* tokenizer) {
         operation_token = tokenizer -> next_token();
 
         if (operation_token.is_empty()) {
+            tokenizer->push_back();
             return ParseResult(result);
         }        
 
@@ -162,6 +186,20 @@ ParseResult read_term(Tokenizer* tokenizer) {
         oper = operation_token.get_oper();
     }
 
+    tokenizer->push_back();
     return ParseResult(result);
     
+}
+
+ParseResult read_number_or_brackets(Tokenizer* tokenizer) {
+    Token token = tokenizer->next_token();
+
+    if (token.is_bracket() && token.get_bracket() == '(') {
+        ParseResult result = eval(tokenizer);
+        return result;
+    }
+
+    tokenizer->push_back();
+    return get_number(tokenizer);
+        
 }

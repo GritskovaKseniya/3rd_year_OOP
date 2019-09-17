@@ -11,9 +11,18 @@ Token::Token(double value) {
     this->number_value = value;
 }
 
-Token::Token(char operation) {
-    this->type = OPER;
-    this-> operation_value = operation;
+Token::Token(char operation_or_bracket) {
+    if (
+        operation_or_bracket == '('
+        || operation_or_bracket == ')'
+    ) {
+        this->type = BRACKET;
+        this->bracket_value = operation_or_bracket;
+    } else {
+        this->type = OPER;
+        this-> operation_value = operation_or_bracket;
+    }
+    
 }
 
 Token::Token(std::string unkknown) {
@@ -33,12 +42,20 @@ bool Token::is_oper() {
     return this->type == OPER;
 }
 
+bool Token::is_bracket() {
+    return this->type == BRACKET;
+}
+
 double Token::get_number() {
     return this->number_value;
 }
 
 char Token::get_oper() {
     return this->operation_value;
+}
+
+char Token::get_bracket() {
+    return this->bracket_value;
 }
 
 std::string Token::debug() {
@@ -61,6 +78,11 @@ std::string Token::debug() {
         type_str = "EMPTY";
         break;
 
+    case BRACKET:
+        type_str = "BRACKET";
+        value_str.push_back(bracket_value);
+        break;
+    
     default:
         type_str = "UNKNOWN";
         value_str = unknown_value;

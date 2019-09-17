@@ -5,9 +5,15 @@
 Tokenizer::Tokenizer(std::string expr) {
     this->expression = expr;
     this->position = 0;
+    this->has_push_back = false;
 }
 
 Token Tokenizer::next_token() {
+
+    if (this->has_push_back) {
+        this->has_push_back = false;
+        return last;
+    }
 
     if (position >= expression.size()) {
         last = Token();
@@ -26,10 +32,13 @@ Token Tokenizer::next_token() {
 
     int start_position = position-1;
 
-    if (symbol == '+'
+    if (
+        symbol == '+'
         || symbol == '-'
         || symbol == '*'
         || symbol == '/'
+        || symbol == '('
+        || symbol == ')'
     ) {
         last = Token(symbol);
         return last;
@@ -44,12 +53,15 @@ Token Tokenizer::next_token() {
         // Or it may be OPER
         symbol = expression.at(position);
 
-        // If symbol is OPER then EoC
-        // OPER is a single symbol. It means that previous symbols was another Token
-        if (symbol == '+'
+        // If symbol is OPER or BRACKET then EoC
+        // OPER or BRACKET are a single symbol. It means that previous symbols was another Token
+        if (
+            symbol == '+'
             || symbol == '-'
             || symbol == '*'
             || symbol == '/'
+            || symbol == '('
+            || symbol == ')'
         ) {
             break;
         }
@@ -103,6 +115,11 @@ Token Tokenizer::next_token() {
     
 }
 
-Token Tokenizer::last_token() {
-    return last;
+bool Tokenizer::push_back() {
+    if (this->has_push_back) {
+        return false;
+    }
+
+    this->has_push_back = true;
+    return true;
 }

@@ -36,6 +36,7 @@ enum TokenType
     EMPTY,
     NUMBER,
     OPER,
+    BRACKET,
     UNKNOWN // Не пойми что - ошибка разбора
 };
 
@@ -58,9 +59,13 @@ class Token
 
         bool is_oper();
 
+        bool is_bracket();
+
         double get_number();
 
         char get_oper();
+
+        char get_bracket();
 
         std::string debug();
     
@@ -71,6 +76,8 @@ class Token
         double number_value;
 
         char operation_value;
+
+        char bracket_value;
 
         std::string unknown_value; 
 
@@ -88,7 +95,7 @@ class Tokenizer
         /// Если в строке ерунда - возвращает токен с type=UNKNOWN
         Token next_token();
 
-        Token last_token();
+        bool push_back();
 
     private:
 
@@ -97,6 +104,8 @@ class Tokenizer
         Token last;
 
         int position;
+
+        bool has_push_back;
 };
 
 
