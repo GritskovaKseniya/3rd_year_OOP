@@ -2,8 +2,6 @@
 
 #include "../header/ExpressionAnalyzerSt.h"
 
-ParseResult get_number(Tokenizer* tokenizer);
-
 ParseResult read_term(Tokenizer* tokenizer);
 
 ParseResult read_number_or_brackets(Tokenizer* tokenizer);
@@ -19,9 +17,9 @@ ParseResult eval(std::string expr)
      * 
      * Expression = Term [op Term]*
      * op = '+' | '-'
-     * Term = NumberOR ['*' | '/' NumberOR]
+     * Term = ['+' | '-']NumberOR ['*' | '/' NumberOR]
      * NumberOR = Number | '('Expression')'
-     * Number = ['+' | '-']Digit+[.Digit+]
+     * Number = Digit+[.Digit+]
      * Digit = '0' | '1' | ... | '8' | '9'
      * 
      * (где [] - необязательная часть выражения
@@ -110,34 +108,6 @@ bool apply_op(char op, double num1, double num2, double* result)
     return true;
 }
 
-ParseResult get_number(Tokenizer* tokenizer) {
-    Token token = tokenizer -> next_token();
-
-    if (token.is_number()) {
-        return ParseResult(token.get_number());
-    }
-    
-    if (!token.is_oper()) {
-        return ParseResult("Expected number");
-    }
-
-    char oper = token.get_oper();
-
-    if (oper != '+' && oper != '-') {
-        return ParseResult("Expected '+' or '-'");
-    }
-
-    int multipl = oper == '+' ? 1 : -1;
-
-    token = tokenizer -> next_token();
-
-    if (!token.is_number()) {
-        return ParseResult("Expected number");
-    }
-
-    return ParseResult(token.get_number() * multipl);
-}
-
 ParseResult read_term(Tokenizer* tokenizer) {
     ParseResult num = read_number_or_brackets(tokenizer);
 
@@ -174,7 +144,10 @@ ParseResult read_term(Tokenizer* tokenizer) {
 
         operation_token = tokenizer -> next_token();
 
-        if (operation_token.is_empty()) {
+        if (
+            operation_token.is_empty()
+            || (operation_token.is_bracket() && operation_token.get_bracket() == ')')
+        ) {
             tokenizer->push_back();
             return ParseResult(result);
         }        
@@ -193,13 +166,34 @@ ParseResult read_term(Tokenizer* tokenizer) {
 
 ParseResult read_number_or_brackets(Tokenizer* tokenizer) {
     Token token = tokenizer->next_token();
+    int multipl = 1;
+
+    if (token.is_oper()) {
+        char oper = token.get_oper();
+
+        if (oper != '+' && oper != '-') {
+            return ParseResult("Expected '+' or '-'");
+        }
+
+        multipl = oper == '+' ? 1 : -1;
+
+        token = tokenizer -> next_token();
+    }
+
+    if (token.is_number()) {
+        return ParseResult(multipl * token.get_number());
+    }
 
     if (token.is_bracket() && token.get_bracket() == '(') {
         ParseResult result = eval(tokenizer);
-        return result;
+
+        if (result.is_error()) {
+            return result;
+        }
+
+        return ParseResult(multipl * result.get_result());
     }
 
-    tokenizer->push_back();
-    return get_number(tokenizer);
+    return ParseResult("Expected NUMBER or BRACKET");
         
 }
