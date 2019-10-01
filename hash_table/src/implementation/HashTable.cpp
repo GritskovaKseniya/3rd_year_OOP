@@ -23,19 +23,18 @@ void ATable::add(char* name, char* value) {
     int index = hash(name);
 
     ListItem* new_item = new ListItem(name, value);
-
     ListItem* current = data[index];
 
     if (current == 0) {
         current = new_item;
-    } else {
-        while (current->next != 0) {
-            current = current->next;
-        }
-
-        current->next = new_item;
+        return;
     }
-    
+
+    while (current->next != 0) {
+        current = current->next;
+    }
+
+    current->next = new_item;
 }
 
 void ATable::remove(char* name) {
