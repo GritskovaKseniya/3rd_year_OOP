@@ -1,8 +1,6 @@
-struct ListItem
-{
-    char* data;
-    ListItem* next = 0;
-};
+#pragma once
+
+#include "ListItem.h"
 
 class ATable {
     public:
@@ -14,5 +12,7 @@ class ATable {
         char* getValue(char* name);
         void print();
     private:
-        ListItem* data;
+        int hash(char* name);
+
+        ListItem** data;
 };
