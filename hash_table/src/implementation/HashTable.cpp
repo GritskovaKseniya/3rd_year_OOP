@@ -74,7 +74,12 @@ void ATable::remove(char* name) {
     }
 
     ListItem* to_delete = current;
-    previous->next = current->next;
+    previous->next = to_delete->next;
+
+    if (to_delete == data[index]) {
+        data[index] = to_delete->next;
+    }
+
     delete to_delete;
 }
 
