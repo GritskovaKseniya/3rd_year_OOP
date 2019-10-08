@@ -40,8 +40,8 @@ void ATable::add(char* name, char* value) {
     ListItem* current = data[index];
     ListItem* previous = data[index];
 
-    if (current == 0) {
-        current = new_item;
+    if (data[index] == 0) {
+        data[index] = new_item;
         return;
     }
 
