@@ -120,19 +120,14 @@ void ATable::print() {
 }
 
 void ATable::delete_list(ListItem* list) {
-    while (list != 0) {
-        ListItem* current = list;
-        ListItem* previous = list;
+    ListItem* current = list;
 
-        while (current -> next != 0) {
-            previous = current;
-            current = current -> next;
-        }
-
-        previous -> next = 0;
-        delete current;
-        current = 0;
+    while (current != 0) {
+        ListItem* to_delete = current;
+        current = current->next;
+        delete to_delete;
     }
+    
 }
 
 ListItem* ATable::find(ListItem* list, char* name) {
