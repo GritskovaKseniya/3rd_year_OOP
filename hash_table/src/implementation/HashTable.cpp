@@ -4,6 +4,7 @@
 #include "../header/HashTable.h"
 
 ATable::ATable(int maxsize) {
+    size = maxsize;
     data = new ListItem*[maxsize];
 
     for (int i = 0; i < maxsize; ++i) {
@@ -12,9 +13,8 @@ ATable::ATable(int maxsize) {
 }
 
 ATable::~ATable() {
-    int data_lengtn = sizeof(data)/sizeof(data[0]);
 
-    for (int i = 0; i < data_lengtn; ++i) {
+    for (int i = 0; i < size; ++i) {
         delete_list(data[i]);
     }
 
@@ -30,7 +30,7 @@ int ATable::hash(char* name) {
         ++i;
     }
 
-    return sum % (sizeof(data)/sizeof(data[0]));
+    return sum % size;
 }
 
 void ATable::add(char* name, char* value) {

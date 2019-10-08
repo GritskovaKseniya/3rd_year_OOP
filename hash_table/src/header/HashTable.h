@@ -17,4 +17,5 @@ class ATable {
         ListItem* find(ListItem* list, char* name);
 
         ListItem** data;
+        int size;
 };
