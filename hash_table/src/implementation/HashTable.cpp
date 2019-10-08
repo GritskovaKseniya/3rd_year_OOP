@@ -89,7 +89,7 @@ void ATable::setValue(char* name, char* value) {
     ListItem* item = find(data[index], name);
 
     if (item != 0) {
-        item->value = value;
+        strcpy(item->value, value);
     }
 }
 
