@@ -102,7 +102,21 @@ char* ATable::getValue(char* name) {
 }
 
 void ATable::print() {
-    std:: cout << "" << std::endl;
+
+    for (int i = 0; i < size; ++i) {
+        std::cout << i << ": ";
+
+        ListItem* current = data[i];
+
+        while (current != 0) {
+            std::cout << "Key: " << current->name << " ";
+            std::cout << "Value: " << current->value << "; ";
+
+            current = current->next;
+        }
+
+        std::cout << std::endl;
+    }
 }
 
 void ATable::delete_list(ListItem* list) {
