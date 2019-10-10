@@ -22,15 +22,15 @@ Token Tokenizer::next_token() {
     
     // Init token
     bool has_fractional_part = false;
-    char symbol = ' ';
+    char symbol = expression.at(position);
 
     // Skips all lead spaces
     while (symbol == ' ') {
-        symbol = expression.at(position);
         position++;
+        symbol = expression.at(position);
     }
 
-    int start_position = position-1;
+    int start_position = position;
 
     if (
         symbol == '+'
@@ -40,6 +40,7 @@ Token Tokenizer::next_token() {
         || symbol == '('
         || symbol == ')'
     ) {
+        position++;
         last = Token(symbol);
         return last;
     }
@@ -103,12 +104,12 @@ Token Tokenizer::next_token() {
     switch (token_type)
     {
     case NUMBER:
-        last = Token(::atof(expression.substr(start_position, position - start_position).c_str()));
+        last = Token(::atof(expression.substr(start_position, position - start_position + 1).c_str()));
         return last;
         break;
 
     case UNKNOWN:
-        last = Token(expression.substr(start_position, position - start_position));
+        last = Token(expression.substr(start_position, position - start_position + 1));
         return last;
         break;
     }
