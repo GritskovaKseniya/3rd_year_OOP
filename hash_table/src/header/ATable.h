@@ -5,6 +5,12 @@
 class ATable {
     public:
         ATable(int maxsize=100);
+        ATable(ListItem* list): ATable() {
+            while (list != 0) {
+                this->add(list->name, list->value);
+                list = list->next;
+            }
+        }
         ~ATable();
         void add(char* name, char* value);
         void remove(char* name);
