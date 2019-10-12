@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "./header/HashTable.h"
+#include "./header/ATable.h"
 
 void add(ATable* table);
 void remove(ATable* table);

@@ -1,7 +1,7 @@
 #include <string.h>
 #include <iostream>
 
-#include "../header/HashTable.h"
+#include "../header/ATable.h"
 
 ATable::ATable(int maxsize) {
     size = maxsize;
