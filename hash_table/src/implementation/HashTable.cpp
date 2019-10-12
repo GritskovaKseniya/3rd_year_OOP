@@ -21,17 +21,6 @@ ATable::~ATable() {
     delete[] data;
 }
 
-int ATable::hash(char* name) {
-    int sum = 0;
-
-    int i = 0;
-    while (name[i] != '\0') {
-        sum+=name[i];
-        ++i;
-    }
-
-    return sum % size;
-}
 
 void ATable::add(char* name, char* value) {
     int index = hash(name);
