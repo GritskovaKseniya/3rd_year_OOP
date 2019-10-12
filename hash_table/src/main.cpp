@@ -49,7 +49,6 @@ int main() {
         }
     }
     
-
     return 0;
 }
 
@@ -75,7 +74,9 @@ void get_value(ATable* table) {
 
     std::cout << "Input key: "; std::cin >> key;
 
-    std::cout << table->getValue(key) << std::endl;
+    char* value = table->getValue(key);
+
+    std::cout << (value == 0 ? "NULL" : value) << std::endl;
 }
 
 void set_value(ATable* table) {

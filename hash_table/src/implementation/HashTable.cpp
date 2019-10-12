@@ -21,16 +21,14 @@ ATable::~ATable() {
     delete[] data;
 }
 
-
 void ATable::add(char* name, char* value) {
     int index = hash(name);
 
-    ListItem* new_item = new ListItem(name, value);
     ListItem* current = data[index];
     ListItem* previous = data[index];
 
     if (data[index] == 0) {
-        data[index] = new_item;
+        data[index] = new ListItem(name, value);
         return;
     }
 
@@ -43,8 +41,14 @@ void ATable::add(char* name, char* value) {
         return;
     }
 
-    previous->next = new_item;
-    new_item->next = current;
+    ListItem* new_item = new ListItem(name, value);
+
+    if (current->next == 0) {
+        current->next = new_item;
+    } else {
+        previous->next = new_item;
+        new_item->next = current;
+    }
 }
 
 void ATable::remove(char* name) {
