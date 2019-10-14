@@ -49,6 +49,7 @@ int main() {
         }
     }
     
+    delete table;
     return 0;
 }
 
