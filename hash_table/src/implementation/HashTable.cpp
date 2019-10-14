@@ -27,28 +27,35 @@ void ATable::add(char* name, char* value) {
     ListItem* current = data[index];
     ListItem* previous = data[index];
 
+    // If current cell id 0, then create new list from it and return
     if (data[index] == 0) {
         data[index] = new ListItem(name, value);
         return;
     }
 
-    while (current->next != 0 && strcmp(name, current->name) < 0) {
+    // Go over list while keys are less than given or the end of the list is found
+    while (current != 0 && strcmp(name, current->name) < 0) {
         previous = current;
         current = current->next;
     }
 
+    // If found the end of the list, then add item to it and return
+    if (current == 0) {
+        previous->next = new ListItem(name, value);
+        return;
+    }
+
+    // If the found key is equal to given key, then don't add anything and return
     if (strcmp(current->name, name) == 0) {
         return;
     }
 
+    
+    // In other case add new item before founded
     ListItem* new_item = new ListItem(name, value);
 
-    if (current->next == 0) {
-        current->next = new_item;
-    } else {
-        previous->next = new_item;
-        new_item->next = current;
-    }
+    previous->next = new_item;
+    new_item->next = current;
 }
 
 void ATable::remove(char* name) {
@@ -82,6 +89,8 @@ void ATable::setValue(char* name, char* value) {
     ListItem* item = find(data[index], name);
 
     if (item != 0) {
+        delete[] item->value;
+        item->value = new char[strlen(value) + 1];
         strcpy(item->value, value);
     }
 }
