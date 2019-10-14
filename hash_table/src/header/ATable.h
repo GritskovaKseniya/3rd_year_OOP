@@ -72,10 +72,8 @@ class ATable {
         int hash(char* name) {
             int sum = 0;
 
-            int i = 0;
-            while (name[i] != '\0') {
+            for(int i = 0; name[i] != '\0'; ++i) {
                 sum+=name[i];
-                ++i;
             }
 
             return sum % size;
