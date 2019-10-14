@@ -25,7 +25,7 @@ void ATable::add(char* name, char* value) {
     int index = hash(name);
 
     ListItem* current = data[index];
-    ListItem* previous = data[index];
+    ListItem* previous = 0;
 
     // If current cell id 0, then create new list from it and return
     if (data[index] == 0) {
@@ -34,7 +34,7 @@ void ATable::add(char* name, char* value) {
     }
 
     // Go over list while keys are less than given or the end of the list is found
-    while (current != 0 && strcmp(name, current->name) < 0) {
+    while (current != 0 && strcmp(current->name, name) < 0) {
         previous = current;
         current = current->next;
     }
@@ -53,31 +53,36 @@ void ATable::add(char* name, char* value) {
     
     // In other case add new item before founded
     ListItem* new_item = new ListItem(name, value);
-
-    previous->next = new_item;
     new_item->next = current;
+
+    if (previous == 0) {
+        data[index] = new_item;
+    } else {
+        previous->next = new_item;
+    }
 }
 
 void ATable::remove(char* name) {
     int index = hash(name);
 
     ListItem* current = data[index];
-    ListItem* previous = current;
+    ListItem* previous = 0;
     
-    while (current != 0 && strcmp(name, current->name) < 0) {
+    while (current != 0 && strcmp(current->name, name) < 0) {
         previous = current;
         current = current->next;
     }
 
-    if (current == 0 || strcmp(name, current->name) > 0) {
+    if (current == 0 || strcmp(current->name, name) > 0) {
         return;
     }
 
     ListItem* to_delete = current;
-    previous->next = to_delete->next;
 
-    if (to_delete == data[index]) {
+    if (previous == 0) {
         data[index] = to_delete->next;
+    } else {
+        previous->next = to_delete->next;
     }
 
     delete to_delete;
@@ -135,11 +140,11 @@ void ATable::delete_list(ListItem* list) {
 ListItem* ATable::find(ListItem* list, char* name) {
     ListItem* current = list;
 
-    while (current != 0 && strcmp(name, current->name) < 0) {
+    while (current != 0 && strcmp(current->name, name) < 0) {
         current = current->next;
     }
 
-    if (current == 0 || strcmp(name, current->name) > 0) {
+    if (current == 0 || strcmp(current->name, name) > 0) {
         return 0;
     }
 
