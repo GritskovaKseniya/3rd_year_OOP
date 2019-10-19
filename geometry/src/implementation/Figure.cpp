@@ -24,7 +24,7 @@ int Figure::getBorderColor() const {
     return c;
 }
 
-void Figure::setVisible(bool isVisible = true) {
+void Figure::setVisible(bool isVisible) {
     visible = isVisible;
 }
 
