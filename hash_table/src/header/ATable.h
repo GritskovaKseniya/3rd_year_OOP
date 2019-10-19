@@ -80,7 +80,7 @@ class ATable {
         }
 
         /**
-         * Deletes given lists
+         * Deletes given list
          * 
          * @param list list to delete
         */
