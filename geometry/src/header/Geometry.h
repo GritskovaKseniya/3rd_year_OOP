@@ -31,3 +31,28 @@ class Figure {
         
         bool visible;
 };
+
+class Romb: public Figure {
+    public:
+        
+        Romb(int c, int x, int y, double width, double height): Figure(c, x, y) {
+            this->width = width;
+            this->height = height;
+        }
+
+        virtual ~Romb();
+
+        virtual void calcParams(float& perimeter, float& area) const;
+
+        double* getSizes();
+        
+        void setSizes(double width, double height);
+
+    protected:
+
+        virtual void draw() const;
+
+    private:
+
+        double width, height;
+};
