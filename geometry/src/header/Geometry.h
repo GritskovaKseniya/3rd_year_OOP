@@ -9,7 +9,7 @@ class Figure {
 
         void move(int dx, int dy); // сместить фигуру на (dx,dy) – только видимую
         
-        void setBorderColor(int c); // установить цвет фигуры – только видимой
+        virtual void setBorderColor(int c); // установить цвет фигуры – только видимой
         
         int getBorderColor() const; // получить цвет
         
@@ -59,4 +59,28 @@ class Romb: public Figure {
         double width = 1, height = 1;
 
         bool sizesIsCorrect(double width, double height);
+};
+
+class FilledRomb: public Romb {
+    public:
+
+        FilledRomb(int c, int fillColor, int x, int y, double width, double height): Romb(c, x, y, width, height) {
+            this->fillColor = fillColor;
+        }
+
+        ~FilledRomb();
+
+        int getFillColor();
+
+        void setFillColor(int c);
+
+        virtual void setBorderColor(int c);
+
+    protected:
+        
+        virtual void draw() const;
+
+    private:
+
+        int fillColor;
 };
