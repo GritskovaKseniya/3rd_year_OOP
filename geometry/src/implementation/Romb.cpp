@@ -24,6 +24,12 @@ double* Romb::getSizes() {
 }
 
 void Romb::setSizes(double widht, double height) {
-    this->width = widht;
-    this->height = height;
+    if (sizesIsCorrect(widht, height)) {
+        this->width = widht;
+        this->height = height;
+    }
+}
+
+bool Romb::sizesIsCorrect(double width, double height) {
+    return width > 0 && height > 0;
 }

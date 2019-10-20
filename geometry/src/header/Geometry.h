@@ -21,9 +21,9 @@ class Figure {
 
     protected:
         
-        virtual void draw() const = 0;
-        
         int x,y; // базовая точка
+        
+        virtual void draw() const = 0;
 
     private:
         
@@ -36,8 +36,10 @@ class Romb: public Figure {
     public:
         
         Romb(int c, int x, int y, double width, double height): Figure(c, x, y) {
-            this->width = width;
-            this->height = height;
+            if (sizesIsCorrect(width, height)) {
+                this->width = width;
+                this->height = height;
+            }
         }
 
         virtual ~Romb();
@@ -54,5 +56,7 @@ class Romb: public Figure {
 
     private:
 
-        double width, height;
+        double width = 1, height = 1;
+
+        bool sizesIsCorrect(double width, double height);
 };
