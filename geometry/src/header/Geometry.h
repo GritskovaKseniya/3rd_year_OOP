@@ -1,11 +1,19 @@
 #pragma once
 
+struct Point {
+    int x;
+    int y;
+};
+
+
 class Figure {
     public:
 
         Figure(int c, int x, int y);
         
         virtual ~Figure();
+
+        Point getCenter();
 
         void move(int dx, int dy); // сместить фигуру на (dx,dy) – только видимую
         

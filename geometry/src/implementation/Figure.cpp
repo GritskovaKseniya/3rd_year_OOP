@@ -18,6 +18,15 @@ void Figure::move(int dx, int dy) {
     update();
 }
 
+Point Figure::getCenter() {
+    Point point;
+
+    point.x = x;
+    point.y = y;
+
+    return point;
+}
+
 void Figure::setBorderColor(int c) {
     this->c = c;
 
