@@ -46,6 +46,10 @@ class Figure {
         bool visible;
 };
 
+struct RombSizes {
+    double width;
+    double height;
+};
 class Romb: public Figure {
     public:
         
@@ -60,7 +64,7 @@ class Romb: public Figure {
 
         virtual void calcParams(float& perimeter, float& area) const;
 
-        double* getSizes();
+        RombSizes getSizes();
         
         void setSizes(double width, double height);
 

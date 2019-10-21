@@ -14,11 +14,11 @@ void Romb::draw() const {
     // TODO
 }
 
-double* Romb::getSizes() {
-    double sizes[2];
+RombSizes Romb::getSizes() {
+    RombSizes sizes;
     
-    sizes[0] = width;
-    sizes[1] = height;
+    sizes.width = width;
+    sizes.height = height;
 
     return sizes;
 }
