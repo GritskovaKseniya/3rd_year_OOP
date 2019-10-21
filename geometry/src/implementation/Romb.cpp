@@ -27,6 +27,8 @@ void Romb::setSizes(double widht, double height) {
     if (sizesIsCorrect(widht, height)) {
         this->width = widht;
         this->height = height;
+
+        update();
     }
 }
 

@@ -10,11 +10,13 @@ int FilledRomb::getFillColor() {
 
 void FilledRomb::setFillColor(int c) {
     this->fillColor = c;
+
+    update();
 }
 
 void FilledRomb::setBorderColor(int c) {
     if (c != this->fillColor) {
-        // TODO: Call another method
+        Romb::setBorderColor(c);
     }
 }
 
