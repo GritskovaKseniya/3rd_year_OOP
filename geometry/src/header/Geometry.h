@@ -33,12 +33,6 @@ class Figure {
         
         virtual void draw() const = 0;
 
-        void update() const {
-            if (visible) {
-                draw();
-            }
-        }
-
     private:
         
         int c; // цвет
@@ -50,6 +44,8 @@ struct RombSizes {
     double width;
     double height;
 };
+
+
 class Romb: public Figure {
     public:
         

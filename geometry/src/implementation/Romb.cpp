@@ -24,11 +24,11 @@ RombSizes Romb::getSizes() {
 }
 
 void Romb::setSizes(double widht, double height) {
-    if (sizesIsCorrect(widht, height)) {
+    if (sizesIsCorrect(widht, height) && isVisible()) {
         this->width = widht;
         this->height = height;
 
-        update();
+        draw();
     }
 }
 

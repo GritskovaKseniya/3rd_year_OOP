@@ -12,10 +12,12 @@ Figure::~Figure() {
 }
 
 void Figure::move(int dx, int dy) {
-    x+=dx;
-    y+=dy;
+    if (visible) {
+        x+=dx;
+        y+=dy;
 
-    update();
+        draw();
+    }
 }
 
 Point Figure::getCenter() {
@@ -28,9 +30,11 @@ Point Figure::getCenter() {
 }
 
 void Figure::setBorderColor(int c) {
-    this->c = c;
+    if (visible) {
+        this->c = c;
 
-    update();
+        draw();
+    }
 }
 
 int Figure::getBorderColor() const {
@@ -40,7 +44,9 @@ int Figure::getBorderColor() const {
 void Figure::setVisible(bool isVisible) {
     visible = isVisible;
 
-    update();
+    if (visible) {
+        draw();
+    }
 }
 
 bool Figure::isVisible() const {

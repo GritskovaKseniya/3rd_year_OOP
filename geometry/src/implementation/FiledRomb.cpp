@@ -9,9 +9,11 @@ int FilledRomb::getFillColor() {
 }
 
 void FilledRomb::setFillColor(int c) {
-    this->fillColor = c;
+    if (isVisible()) {
+        this->fillColor = c;
 
-    update();
+        draw();
+    }
 }
 
 void FilledRomb::setBorderColor(int c) {
