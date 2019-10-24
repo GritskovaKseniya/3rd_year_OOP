@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "../header/Geometry.h"
 
 FilledRomb::~FilledRomb() {
@@ -23,5 +25,6 @@ void FilledRomb::setBorderColor(int c) {
 }
 
 void FilledRomb::draw() const {
-    // TODO
+    Romb::draw();
+    std::cout << "Fill color: " << fillColor << std::endl;
 }

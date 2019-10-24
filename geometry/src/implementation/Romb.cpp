@@ -1,5 +1,8 @@
-#include "../header/Geometry.h"
 #include <math.h>
+#include <iostream>
+
+#include "../header/Geometry.h"
+
 
 Romb::~Romb() {
     //
@@ -11,7 +14,12 @@ void Romb::calcParams(float& perimeter, float& area) const {
 }
 
 void Romb::draw() const {
-    // TODO
+    std::cout << "Center x: " << x << std::endl;
+    std::cout << "Center y: " << y << std::endl;
+    std::cout << "Visible: " << isVisible() << std::endl;
+    std::cout << "Border color:" << getBorderColor() << std::endl;
+    std::cout << "Width: " << width << std::endl;
+    std::cout << "Height: " << height << std::endl;
 }
 
 RombSizes Romb::getSizes() {
