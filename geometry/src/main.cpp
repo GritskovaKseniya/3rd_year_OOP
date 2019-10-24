@@ -5,6 +5,7 @@
 int main() {
     Romb* romb = new Romb(0, 0, 0, 1, 1);
     FilledRomb* filledRomb = new FilledRomb(0, 1, 0, 0, 1, 1);
+    Figure* figure;
     float perimether, area;
 
     romb->setVisible(); filledRomb->setVisible();
@@ -40,12 +41,17 @@ int main() {
     std::cout << "New romb border color: " << romb->getBorderColor() << std::endl;
     std::cout << std::endl;
 
-    // Demo: polymorphism. Border color doesn't changes
-    std::cout << "Filled romb border color: " << filledRomb->getBorderColor() << std::endl;
-    std::cout << "Filled romb fill color: " << filledRomb->getFillColor() << std::endl;
+    // Demo: polymorphism
+    figure = romb;
+    std::cout << "Figure(Romb) border color: " << figure->getBorderColor() << std::endl;
     std::cout << "Trying to change border color to 1..." << std::endl;
     filledRomb->setBorderColor(1);
-    std::cout << "New filled romb border color: " << filledRomb->getBorderColor() << std::endl;
+    std::cout << "New Figure(Romb) border color: " << figure->getBorderColor() << std::endl;
+    figure = filledRomb;
+    std::cout << "Figure(FilledRomb) border color: " << figure->getBorderColor() << std::endl;
+    std::cout << "Trying to change border color to 1..." << std::endl;
+    filledRomb->setBorderColor(1);
+    std::cout << "New Figure(FilledRomb) border color: " << figure->getBorderColor() << std::endl;
     
     delete romb;
     delete filledRomb;
