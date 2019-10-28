@@ -92,6 +92,11 @@ class Figure {
         */
         virtual void draw() const = 0;
 
+        /**
+         * Prints properties
+        */
+        virtual void info() const = 0;
+
     private:
         
         /**
@@ -181,6 +186,14 @@ class Romb: public Figure {
         */
         virtual void draw() const;
 
+        /**
+         * Override
+         * Prints text info about the Romb into std::cout
+         * 
+         * @see Figure#info
+        */
+        virtual void info() const;
+
     private:
 
         /**
@@ -262,6 +275,15 @@ class FilledRomb: public Romb {
          * @see Figure#draw
         */
         virtual void draw() const;
+
+        /**
+         * Override
+         * Prints properties into std::cout
+         * 
+         * @see Romb#info
+         * @see Figure#info
+        */
+        virtual void info() const;
 
     private:
 
