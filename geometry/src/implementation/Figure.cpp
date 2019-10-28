@@ -42,9 +42,10 @@ int Figure::getBorderColor() const {
 }
 
 void Figure::setVisible(bool isVisible) {
+    bool oldVisible = visible;
     visible = isVisible;
 
-    if (visible) {
+    if (oldVisible == false && visible == true) {
         draw();
     }
 }
