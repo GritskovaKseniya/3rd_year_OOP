@@ -44,13 +44,13 @@ int main() {
     // Demo: polymorphism
     figure = romb;
     std::cout << "Figure(Romb) border color: " << figure->getBorderColor() << std::endl;
-    std::cout << "Trying to change border color to 1..." << std::endl;
-    filledRomb->setBorderColor(1);
+    std::cout << "Trying to change border color to 2..." << std::endl;
+    figure->setBorderColor(2);
     std::cout << "New Figure(Romb) border color: " << figure->getBorderColor() << std::endl;
     figure = filledRomb;
     std::cout << "Figure(FilledRomb) border color: " << figure->getBorderColor() << std::endl;
     std::cout << "Trying to change border color to 1..." << std::endl;
-    filledRomb->setBorderColor(1);
+    figure->setBorderColor(1);
     std::cout << "New Figure(FilledRomb) border color: " << figure->getBorderColor() << std::endl;
     
     delete romb;
