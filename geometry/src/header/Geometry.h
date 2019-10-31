@@ -123,7 +123,7 @@ struct RombSizes {
 /**
  * Represents romb. Subclass of Figure
  * 
- * @see Romb
+ * @see Figure
 */
 class Romb: public Figure {
     public:
@@ -231,7 +231,6 @@ class FilledRomb: public Romb {
          * @param height Height of romb
          * 
          * @see Romb#Romb
-         * @see Figure#Figure
         */
         FilledRomb(int c, int fillColor, int x, int y, double width, double height): Romb(c, x, y, width, height) {
             this->fillColor = fillColor;
