@@ -373,6 +373,12 @@ class SVGRomb: public Romb {
         std::string OUTPUT_FILE_PREFIX;
 };
 
+/**
+ * FilledRomb that generates html file with SVG representation in Figure::draw()
+ * 
+ * @see FilledRomb
+ * @see Figure
+*/
 class SVGFilledRomb: public FilledRomb {
     public:
 
