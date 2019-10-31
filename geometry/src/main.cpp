@@ -2,7 +2,7 @@
 
 #include "header/Geometry.h"
 
-int main() {
+int main(int argc, char **argv) {
     Romb* romb = new Romb(0, 0, 0, 1, 1);
     FilledRomb* filledRomb = new FilledRomb(0, 1, 0, 0, 1, 1);
     Figure* figure;
@@ -55,6 +55,11 @@ int main() {
     
     delete romb;
     delete filledRomb;
+
+    SVGRomb* svgRomb = new SVGRomb(0, 50, 50, 100, 100, argv[1], argv[2]);
+    SVGFilledRomb* svgFilledRomb = new SVGFilledRomb(0, 1, 50, 50, 100, 100, argv[1], argv[2]);
+    svgRomb->setVisible(); svgFilledRomb->setVisible();
+    delete svgRomb; delete svgFilledRomb;
     
     return 0;
 }

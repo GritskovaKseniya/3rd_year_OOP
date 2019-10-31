@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 /**
  * Describes point with two integer coordinates 'x' and 'y'
 */
@@ -179,6 +181,11 @@ class Romb: public Figure {
     protected:
 
         /**
+         * Params of Romb
+        */
+        double width = 1, height = 1;
+
+        /**
          * Override
          * Prints text info about the Romb into std::cout
          * 
@@ -195,11 +202,6 @@ class Romb: public Figure {
         virtual void info() const;
 
     private:
-
-        /**
-         * Params of Romb
-        */
-        double width = 1, height = 1;
 
         /**
          * Checks given width and height
@@ -290,4 +292,157 @@ class FilledRomb: public Romb {
          * Fill color
         */
         int fillColor;
+};
+
+/**
+ * Romb that generates html file with SVG representation in Figure::draw()
+ * 
+ * @see Romb
+ * @see Figure
+*/
+class SVGRomb: public Romb {
+
+    public:
+
+        /**
+         * Creates SVGRomb with given PATH and TEMPLATE_FILE
+         * 
+         * @param c Border color
+         * @param x x of center
+         * @param y y of center
+         * @param widht Width of romb
+         * @param height Height of romb
+         * @param inputFile Path to template file
+         * @param outputPath Path to directory, where output will be stored
+         * @param outputFilenamePrefix Prefix for names of output files
+         * 
+         * @see Romb#Romb
+        */
+        SVGRomb(
+            int c,
+            int x,
+            int y,
+            double width,
+            double height,
+            std::string inputFile = "./template.html",
+            std::string outputPath = ".",
+            std::string outputFilenamePrefix = "Romb"
+        );
+    
+    protected:
+
+        /**
+         * Generates html file with representation
+         * Method opens INPUT_FILE. Assumes that template file contains placeholder ${FIGURE} into <svg> tag
+         * Result stores into file OUTPUT_PATH/OUTPUT_FILE_PREFIX_%d-%m-%Y_%H:%M:%S.html
+         * 
+         *               X
+         *   ------------>
+         *   |
+         *   |
+         *   |
+         *   |
+         *   |
+         * Y V 
+         * 
+         * @see Figure#draw
+        */
+        virtual void draw() const;
+
+        /**
+         * Generates SVG representation;
+         * 
+         * @return Content of .svg file or <svg> html tag
+        */
+        virtual std::string generateTag() const;
+    
+    private:
+        /**
+         * Path to template file
+        */
+        std::string INPUT_FILE;
+
+        /**
+         * Path to directory where results are stored
+        */
+        std::string OUTPUT_PATH;
+
+        /**
+         * Prefix for output file name
+        */
+        std::string OUTPUT_FILE_PREFIX;
+};
+
+class SVGFilledRomb: public FilledRomb {
+    public:
+
+        /**
+         * Creates SVGFilledRomb with given PATH and TEMPLATE_FILE
+         * 
+         * @param c Border color
+         * @param fillColor Fill color
+         * @param x x of center
+         * @param y y of center
+         * @param widht Width of romb
+         * @param height Height of romb
+         * @param inputFile Path to template file
+         * @param outputPath Path to directory, where output will be stored
+         * @param outputFilenamePrefix Prefix for names of output files
+         * 
+         * @see FilledRomb#FilledRomb
+        */
+        SVGFilledRomb(
+            int c,
+            int fillColor,
+            int x,
+            int y,
+            double width,
+            double height,
+            std::string inputFile = "./template.html",
+            std::string outputPath = ".",
+            std::string outputFilenamePrefix = "FilledRomb"
+        );
+    
+    protected:
+
+        /**
+         * Generates html file with representation
+         * Method opens INPUT_FILE. Assumes that template file contains placeholder ${FIGURE} into <svg> tag
+         * Result stores into file OUTPUT_PATH/OUTPUT_FILE_PREFIX_%d-%m-%Y_%H:%M:%S.html
+         * 
+         *               X
+         *   ------------>
+         *   |
+         *   |
+         *   |
+         *   |
+         *   |
+         * Y V 
+         * 
+         * @see Figure#draw
+        */
+        virtual void draw() const;
+
+        /**
+         * Generates SVG representation;
+         * 
+         * @return Content of .svg file or <svg> html tag
+        */
+        virtual std::string generateTag() const;
+    
+    private:
+        /**
+         * Path to template file
+        */
+        std::string INPUT_FILE;
+
+        /**
+         * Path to directory where results are stored
+        */
+        std::string OUTPUT_PATH;
+
+        /**
+         * Prefix for output file name
+        */
+        std::string OUTPUT_FILE_PREFIX;
 };
