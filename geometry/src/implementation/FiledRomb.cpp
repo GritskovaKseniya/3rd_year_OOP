@@ -26,11 +26,6 @@ void FilledRomb::setBorderColor(int c) {
 
 void FilledRomb::draw() const {
     std::cout << "### FILLED ROMB DRAW ###" << std::endl;
-    info();
+    drawer->draw(x, y, width, height, getBorderColor(), fillColor);
     std::cout << "### END OF FILLED ROMB DRAW ###" << std::endl;
-}
-
-void FilledRomb::info() const {
-    Romb::info();
-    std::cout << "Fill color: " << fillColor << std::endl;
 }

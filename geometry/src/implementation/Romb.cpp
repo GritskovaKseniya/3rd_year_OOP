@@ -5,7 +5,7 @@
 
 
 Romb::~Romb() {
-    //
+    delete drawer;
 }
 
 void Romb::calcParams(float& perimeter, float& area) const {
@@ -15,7 +15,7 @@ void Romb::calcParams(float& perimeter, float& area) const {
 
 void Romb::draw() const {
     std::cout << "### ROMB DRAW ###" << std::endl;
-    info();
+    drawer->draw(x, y, width, height, getBorderColor());
     std::cout << "### END OF ROMB DRAW ###" << std::endl;
 }
 
@@ -39,13 +39,4 @@ void Romb::setSizes(double widht, double height) {
 
 bool Romb::sizesIsCorrect(double width, double height) {
     return width > 0 && height > 0;
-}
-
-void Romb::info() const {
-    std::cout << "Center x: " << x << std::endl;
-    std::cout << "Center y: " << y << std::endl;
-    std::cout << "Visible: " << isVisible() << std::endl;
-    std::cout << "Border color: " << getBorderColor() << std::endl;
-    std::cout << "Width: " << width << std::endl;
-    std::cout << "Height: " << height << std::endl;
 }

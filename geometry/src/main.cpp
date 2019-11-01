@@ -3,12 +3,18 @@
 #include "header/Geometry.h"
 
 int main(int argc, char **argv) {
-    Romb* romb = new Romb(0, 0, 0, 1, 1);
-    FilledRomb* filledRomb = new FilledRomb(0, 1, 0, 0, 1, 1);
+    Romb* romb = new Romb(0, 50, 50, 100, 100, new SVGRombDrawer(argv[1], std::string(argv[2]) + "Romb.html"));
+    FilledRomb* filledRomb = new FilledRomb(0, 128, 50, 50, 100, 100, new SVGRombDrawer(argv[1], std::string(argv[2]) + "FilledRomb.html"));
     Figure* figure;
     float perimether, area;
 
     romb->setVisible(); filledRomb->setVisible();
+
+    std::cout << "Open files " 
+        << std::string(argv[2]) + "Romb.html" 
+        << " and " 
+        << std::string(argv[2]) + "FilledRomb.html" 
+        << " in your browser" << std::endl; 
 
     // Demo: moving romb
     std::cout << "Romb's center x: " << romb->getCenter().x << std::endl;
@@ -26,7 +32,7 @@ int main(int argc, char **argv) {
     std::cout << "Romb perimether: " << perimether << std::endl;
     std::cout << "Romb area: " << area << std::endl;
     std::cout << "Changing sizes..." << std::endl;
-    romb->setSizes(2, 2);
+    romb->setSizes(105, 105);
     std::cout << "Romb width: " << romb->getSizes().width << std::endl;
     std::cout << "Romb height: " << romb->getSizes().height << std::endl;
     romb->calcParams(perimether, area);
@@ -50,16 +56,11 @@ int main(int argc, char **argv) {
     figure = filledRomb;
     std::cout << "Figure(FilledRomb) border color: " << figure->getBorderColor() << std::endl;
     std::cout << "Trying to change border color to 1..." << std::endl;
-    figure->setBorderColor(1);
+    figure->setBorderColor(128);
     std::cout << "New Figure(FilledRomb) border color: " << figure->getBorderColor() << std::endl;
     
     delete romb;
     delete filledRomb;
-
-    SVGRomb* svgRomb = new SVGRomb(0, 50, 50, 100, 100, argv[1], argv[2]);
-    SVGFilledRomb* svgFilledRomb = new SVGFilledRomb(0, 1, 50, 50, 100, 100, argv[1], argv[2]);
-    svgRomb->setVisible(); svgFilledRomb->setVisible();
-    delete svgRomb; delete svgFilledRomb;
     
     return 0;
 }
