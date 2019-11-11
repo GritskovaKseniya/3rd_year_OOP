@@ -16,7 +16,7 @@ std::string SVGRombDrawer::generateTag(int x, int y, double width, double height
     << x << "," << y - height/2 << " "
     << x + width/2 << "," << y << " "
     << x << "," << y + height/2 << " "
-    << x - width/2 << "," << height/2 << " "
+    << x - width/2 << "," << y << " "
     << x << "," << y - height/2 << "\" "
     << "stroke-width=\"1\" "
     << "stroke=\"rgb(" << borderColor << "," << borderColor <<"," << borderColor << ")\" ";
