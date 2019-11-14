@@ -1,8 +1,7 @@
-#include "../header/colors.h"
+#include <string>
+#include <sstream>
 
-Color::Color() {
-    //
-}
+#include "../header/colors.h"
 
 Color::Color(const Color &color) {
     this->red = color.red;
@@ -20,19 +19,32 @@ Color::~Color() {
     //
 }
 
-Color &Color::operator+(Color &color) {
+std::string Color::toHexCode() {
+    std::stringstream red, green, blue;
+    red << (this->red < 16 ? "0" : "") << std::hex << this->red;
+    green << (this->green < 16 ? "0" : "") << std::hex << this->green;
+    blue << (this->blue < 16 ? "0" : "") << std::hex << this->blue;
+
+    return red.str() + green.str() + blue.str();
+}
+
+Color Color::operator+(Color &color) {
     short red = this->red + color.red > 255 ? 255 : this->red + color.red;
     short green = this->green + color.green > 255 ? 255 : this->green + color.green;
     short blue = this->blue + color.blue > 255 ? 255 : this->blue + color.blue;
+
+    return Color(red, green, blue);
 }
 
-Color &Color::operator-(Color &color) {
+Color Color::operator-(Color &color) {
     short red = this->red - color.red < 0 ? 0 : this->red - color.red;
     short green = this->green - color.green < 0 ? 0 : this->green - color.green;
     short blue = this->blue - color.blue < 0 ? 0 : this->blue - color.blue;
+
+    return Color(red, green, blue);
 }
 
-Color &Color::operator=(Color &color) {
+Color Color::operator=(Color &color) {
     if (this != &color) {
         this->red = color.red;
         this->green = color.green;

@@ -1,19 +1,23 @@
+#pragma once
+
+#include <string>
+
 class Color {
     public:
-        
-        Color();
 
-        Color(const Color &color);
-        
         Color(short red = 0, short green = 0, short blue = 0);
+        
+        Color(const Color &color);
         
         ~Color();
 
-        Color& operator+(Color &color);
+        std::string toHexCode();
 
-        Color& operator-(Color &color);
+        Color operator+(Color &color);
 
-        Color& operator=(Color &color);
+        Color operator-(Color &color);
+
+        Color operator=(Color &color);
 
         bool operator==(Color &color);
 
