@@ -1,7 +1,28 @@
 #include <string>
 #include <sstream>
+#include <iostream>
+#include <map>
 
 #include "../header/colors.h"
+
+static const std::map<std::string, Color> STRING_TO_COLOR = {
+            {"black", colors::BLACK},
+            {"gray", colors::GRAY},
+            {"silver", colors::SILVER},
+            {"white", colors::WHITE},
+            {"fuchsia", colors::FUCHSIA},
+            {"purple", colors::PURPLE},
+            {"red", colors::RED},
+            {"maroon", colors::MAROON},
+            {"yellow", colors::YELLOW},
+            {"olive", colors::OLIVE},
+            {"lime", colors::LIME},
+            {"green", colors::GREEN},
+            {"aqua", colors::AQUA},
+            {"teal", colors::TEAL},
+            {"blue", colors::BLUE},
+            {"navy", colors::NAVY}
+        };
 
 Color::Color(const Color &color) {
     this->red = color.red;
@@ -28,7 +49,7 @@ std::string Color::toHexCode() {
     return red.str() + green.str() + blue.str();
 }
 
-Color Color::operator+(Color &color) {
+Color Color::operator+(const Color &color) {
     short red = this->red + color.red > 255 ? 255 : this->red + color.red;
     short green = this->green + color.green > 255 ? 255 : this->green + color.green;
     short blue = this->blue + color.blue > 255 ? 255 : this->blue + color.blue;
@@ -36,7 +57,16 @@ Color Color::operator+(Color &color) {
     return Color(red, green, blue);
 }
 
-Color Color::operator-(Color &color) {
+Color Color::operator+(const std::string &name) {
+    if (STRING_TO_COLOR.count(name) == 0) {
+        std::cerr << "Color " << name << " doesn't exist. Please use Color class" << std::endl;
+        return *this;
+    }
+
+    return *this + STRING_TO_COLOR.at(name);
+}
+
+Color Color::operator-(const Color &color) {
     short red = this->red - color.red < 0 ? 0 : this->red - color.red;
     short green = this->green - color.green < 0 ? 0 : this->green - color.green;
     short blue = this->blue - color.blue < 0 ? 0 : this->blue - color.blue;
@@ -44,7 +74,7 @@ Color Color::operator-(Color &color) {
     return Color(red, green, blue);
 }
 
-Color Color::operator=(Color &color) {
+Color Color::operator=(const Color &color) {
     if (this != &color) {
         this->red = color.red;
         this->green = color.green;
@@ -54,12 +84,12 @@ Color Color::operator=(Color &color) {
     return *this;
 }
 
-bool Color::operator==(Color &color) {
+bool Color::operator==(const Color &color) {
     return this->red == color.red
         && this->green == color.green
         && this->blue == color.blue;
 }
 
-bool Color::operator!=(Color &color) {
+bool Color::operator!=(const Color &color) {
     return !(*this == color);
 }

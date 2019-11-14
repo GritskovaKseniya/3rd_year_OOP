@@ -16,13 +16,17 @@ int main() {
 
     std::cout << "Red + green:" << yellow.toHexCode() << std::endl;
 
+    yellow = red + "green";
+
+    std::cout << "Red + \"green\":" << yellow.toHexCode() << std::endl;
+
     Color black = red - red;
 
     std::cout << "Red - red: " << black.toHexCode() << std::endl;
 
     std::cout << "Compare red and red: " << (red == red) << std::endl;
 
-    std::cout << "Compare red and green: " << (red == green) << std::endl; 
+    std::cout << "Compare red and green: " << (red == green) << std::endl;
 
     return 0;
 }
