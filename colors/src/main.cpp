@@ -26,7 +26,7 @@ int main() {
 
     std::cout << "Compare red and red: " << (red == red) << std::endl;
 
-    std::cout << "Compare red and green: " << (red == green) << std::endl;
+    std::cout << "Is not red equal GREEN?: " << (red != colors::GREEN) << std::endl;
 
     return 0;
 }

@@ -27,6 +27,12 @@ class Color {
 
     private:
 
+        inline short sumChanel(short first, short second);
+
+        inline short diffChanel(short first, short second);
+
+        inline std::string chanelToHexString(short value);
+
         short red = 0, green = 0, blue = 0;
 };
 

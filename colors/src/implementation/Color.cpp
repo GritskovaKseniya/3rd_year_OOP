@@ -41,18 +41,33 @@ Color::~Color() {
 }
 
 std::string Color::toHexCode() {
-    std::stringstream red, green, blue;
-    red << (this->red < 16 ? "0" : "") << std::hex << this->red;
-    green << (this->green < 16 ? "0" : "") << std::hex << this->green;
-    blue << (this->blue < 16 ? "0" : "") << std::hex << this->blue;
+    std::string red, green, blue;
+    red = chanelToHexString(this->red);
+    green = chanelToHexString(this->green);
+    blue = chanelToHexString(this->green);
 
-    return red.str() + green.str() + blue.str();
+    return red + green + blue;
+}
+
+short Color::sumChanel(short first, short second) {
+    return first + second > 255 ? 255 : first + second;
+}
+
+short Color::diffChanel(short first, short second) {
+    return first - second < 0 ? 0 : first - second;
+}
+
+std::string Color::chanelToHexString(short value) {
+    std::stringstream stream;
+    stream << (value < 16 ? "0" : "") << std::hex << value;
+
+    return stream.str();
 }
 
 Color Color::operator+(const Color &color) {
-    short red = this->red + color.red > 255 ? 255 : this->red + color.red;
-    short green = this->green + color.green > 255 ? 255 : this->green + color.green;
-    short blue = this->blue + color.blue > 255 ? 255 : this->blue + color.blue;
+    short red = sumChanel(this->red, color.red);
+    short green = sumChanel(this->green, color.green);
+    short blue = sumChanel(this->blue, color.blue);
 
     return Color(red, green, blue);
 }
@@ -67,9 +82,9 @@ Color Color::operator+(const std::string &name) {
 }
 
 Color Color::operator-(const Color &color) {
-    short red = this->red - color.red < 0 ? 0 : this->red - color.red;
-    short green = this->green - color.green < 0 ? 0 : this->green - color.green;
-    short blue = this->blue - color.blue < 0 ? 0 : this->blue - color.blue;
+    short red = diffChanel(this->red, color.red);
+    short green = diffChanel(this->green, color.green);
+    short blue = diffChanel(this->blue, color.blue);
 
     return Color(red, green, blue);
 }
