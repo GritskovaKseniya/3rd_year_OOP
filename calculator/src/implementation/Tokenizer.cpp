@@ -109,7 +109,7 @@ Token Tokenizer::next_token() {
         break;
 
     case UNKNOWN:
-        last = Token(expression.substr(start_position, position - start_position + 1));
+        last = Token(expression.substr(start_position, position - start_position));
         return last;
         break;
     }
