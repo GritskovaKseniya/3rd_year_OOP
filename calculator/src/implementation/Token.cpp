@@ -25,9 +25,9 @@ Token::Token(char operation_or_bracket) {
     
 }
 
-Token::Token(std::string unkknown) {
+Token::Token(std::string unknown) {
     this->type = UNKNOWN;
-    this->unknown_value = unkknown;
+    this->unknown_value = unknown;
 }
 
 bool Token::is_empty() {
