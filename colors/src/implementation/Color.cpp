@@ -6,23 +6,23 @@
 #include "../header/colors.h"
 
 static const std::map<std::string, Color> STRING_TO_COLOR = {
-            {"black", colors::BLACK},
-            {"gray", colors::GRAY},
-            {"silver", colors::SILVER},
-            {"white", colors::WHITE},
-            {"fuchsia", colors::FUCHSIA},
-            {"purple", colors::PURPLE},
-            {"red", colors::RED},
-            {"maroon", colors::MAROON},
-            {"yellow", colors::YELLOW},
-            {"olive", colors::OLIVE},
-            {"lime", colors::LIME},
-            {"green", colors::GREEN},
-            {"aqua", colors::AQUA},
-            {"teal", colors::TEAL},
-            {"blue", colors::BLUE},
-            {"navy", colors::NAVY}
-        };
+    {"black", colors::BLACK},
+    {"gray", colors::GRAY},
+    {"silver", colors::SILVER},
+    {"white", colors::WHITE},
+    {"fuchsia", colors::FUCHSIA},
+    {"purple", colors::PURPLE},
+    {"red", colors::RED},
+    {"maroon", colors::MAROON},
+    {"yellow", colors::YELLOW},
+    {"olive", colors::OLIVE},
+    {"lime", colors::LIME},
+    {"green", colors::GREEN},
+    {"aqua", colors::AQUA},
+    {"teal", colors::TEAL},
+    {"blue", colors::BLUE},
+    {"navy", colors::NAVY}
+};
 
 Color::Color(const Color &color) {
     this->red = color.red;
