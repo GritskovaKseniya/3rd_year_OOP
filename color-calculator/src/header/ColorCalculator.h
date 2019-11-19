@@ -5,23 +5,42 @@
 
 #include <string>
 
-enum ColorTokenType {
+class ParseResult {
+    public:
+        
+        ParseResult(libs__Colors::Color result);
+
+        ParseResult(std::string error);
+
+        bool isError();
+
+        libs__Colors::Color getResult();
+
+        std::string getError();
+
+    private:
+
+        libs__Colors::Color result;
+        std::string error;
+};
+
+enum TokenType {
     COLOR,
     OPERATION,
     EMPTY,
     UNKNOWN
 };
 
-class ColorToken {
+class Token {
     public:
 
-        ColorToken();
+        Token();
 
-        ColorToken(Color color);
+        Token(libs__Colors::Color color);
 
-        ColorToken(char operation);
+        Token(char operation);
 
-        ColorToken(std::string unknown);
+        Token(std::string unknown);
 
         bool isEmpty();
 
@@ -29,9 +48,7 @@ class ColorToken {
 
         bool isOperation();
 
-        bool isUnknown();
-
-        Color getColorValue();
+        libs__Colors::Color getColorValue();
 
         char getOperationValue();
 
@@ -39,9 +56,9 @@ class ColorToken {
 
     private:
 
-        ColorTokenType type;
+        TokenType type;
 
-        Color colorValue;
+        libs__Colors::Color colorValue;
 
         char operationValue;
 
@@ -49,18 +66,18 @@ class ColorToken {
 
 };
 
-class ColorTokenizer {
+class Tokenizer {
     public:
 
-        ColorTokenizer(std::string eval);
+        Tokenizer(std::string eval);
 
-        ColorToken nextToken();
+        Token nextToken();
 
     private:
         
-        Tokenizer tokenizer;
+        libs__ExpressionAnalyserSt::Tokenizer tokenizer = libs__ExpressionAnalyserSt::Tokenizer("");
 };
 
-bool applyOp(char op, Color first, Color second, Color& result);
+bool applyOp(char op, libs__Colors::Color first, libs__Colors::Color second, libs__Colors::Color& result);
 
-ParseResult colorEval(std::string expression);
+ParseResult eval(std::string expression);

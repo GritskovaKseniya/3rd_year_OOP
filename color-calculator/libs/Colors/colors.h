@@ -2,6 +2,8 @@
 
 #include <string>
 
+namespace libs__Colors {
+    
 /**
  * Represents Color. Support math and compare operations
 */
@@ -115,4 +117,6 @@ namespace colors {
     const Color TEAL = Color(0, 128, 128);
     const Color BLUE = Color(0, 0, 255);
     const Color NAVY = Color(0, 0, 128);
+}
+
 }

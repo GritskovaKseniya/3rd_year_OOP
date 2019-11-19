@@ -2,6 +2,8 @@
 
 #include "../ExpressionAnalyzerSt.h"
 
+using namespace libs__ExpressionAnalyserSt;
+
 Token::Token() {
     this->type = EMPTY;
 }
@@ -56,6 +58,10 @@ char Token::get_oper() {
 
 char Token::get_bracket() {
     return this->bracket_value;
+}
+
+std::string Token::get_unknown() {
+    return this->unknown_value;
 }
 
 std::string Token::debug() {

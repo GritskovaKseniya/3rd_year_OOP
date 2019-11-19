@@ -5,6 +5,8 @@
 
 #include "../colors.h"
 
+using namespace libs__Colors;
+
 static const std::map<std::string, Color> STRING_TO_COLOR = {
     {"black", colors::BLACK},
     {"gray", colors::GRAY},

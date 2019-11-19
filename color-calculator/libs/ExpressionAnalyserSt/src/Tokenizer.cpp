@@ -2,6 +2,8 @@
 
 #include "../ExpressionAnalyzerSt.h"
 
+using namespace libs__ExpressionAnalyserSt;
+
 Tokenizer::Tokenizer(std::string expr) {
     this->expression = expr;
     this->position = 0;

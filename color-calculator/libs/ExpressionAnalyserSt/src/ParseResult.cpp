@@ -2,6 +2,8 @@
 
 #include "../ExpressionAnalyzerSt.h"
 
+using namespace libs__ExpressionAnalyserSt;
+
 ParseResult::ParseResult(double result) {
     this->result = result;
     this->error = "NULL";

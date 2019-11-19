@@ -2,7 +2,7 @@
 
 #include <string>
 
-// using namespace std;
+namespace libs__ExpressionAnalyserSt {
 
 /// Результат разбора выражения - число либо текст ошибки
 class ParseResult
@@ -66,6 +66,8 @@ class Token
 
         char get_bracket();
 
+        std::string get_unknown();
+
         std::string debug();
     
     private:
@@ -115,3 +117,5 @@ bool apply_op(char op, double num1, double num2, double* result);
 
 /// Разбирает арифметическое выражение и считает результат
 ParseResult eval(std::string expr);
+
+}

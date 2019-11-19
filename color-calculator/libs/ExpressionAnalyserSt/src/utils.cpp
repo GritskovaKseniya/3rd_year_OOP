@@ -2,11 +2,13 @@
 
 #include "../ExpressionAnalyzerSt.h"
 
+using namespace libs__ExpressionAnalyserSt;
+
 ParseResult read_term(Tokenizer* tokenizer);
 
 ParseResult read_number_or_brackets(Tokenizer* tokenizer);
 
-ParseResult eval(std::string expr);
+ParseResult libs__ExpressionAnalyserSt::eval(std::string expr);
 
 ParseResult eval(Tokenizer* tokenizer);
 
@@ -84,7 +86,7 @@ ParseResult eval(Tokenizer* tokenizer) {
     return ParseResult(result);
 }
 
-bool apply_op(char op, double num1, double num2, double* result)
+bool libs__ExpressionAnalyserSt::apply_op(char op, double num1, double num2, double* result)
 {
     switch (op)
     {
