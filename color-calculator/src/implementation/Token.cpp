@@ -44,3 +44,32 @@ char Token::getOperationValue() {
 std::string Token::getUnknownValue() {
     return unknownValue;
 }
+
+std::string Token::debug() {
+    std::string type_str = "";
+    std::string value_str = "";
+
+    switch (type)
+    {
+    case COLOR:
+        type_str = "COLOR";
+        value_str = colorValue.toHexCode();
+        break;
+
+    case OPERATION:
+        type_str = "OPERATION";
+        value_str.push_back(operationValue);
+        break;
+
+    case EMPTY:
+        type_str = "EMPTY";
+        break;
+    
+    default:
+        type_str = "UNKNOWN";
+        value_str = unknownValue;
+        break;
+    }
+
+    return "Token type: " + type_str + ". Value: " + value_str;
+}

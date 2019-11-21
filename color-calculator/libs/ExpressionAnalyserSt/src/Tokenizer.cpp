@@ -1,10 +1,12 @@
 #include <string>
+#include <algorithm>
 
 #include "../ExpressionAnalyzerSt.h"
 
 using namespace libs__ExpressionAnalyserSt;
 
 Tokenizer::Tokenizer(std::string expr) {
+    expr.erase(remove_if(expr.begin(), expr.end(), isspace), expr.end());
     this->expression = expr;
     this->position = 0;
     this->has_push_back = false;
@@ -25,13 +27,6 @@ Token Tokenizer::next_token() {
     // Init token
     bool has_fractional_part = false;
     char symbol = expression.at(position);
-
-    // Skips all lead spaces
-    while (symbol == ' ') {
-        position++;
-        symbol = expression.at(position);
-    }
-
     int start_position = position;
 
     if (

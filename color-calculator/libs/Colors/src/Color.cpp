@@ -46,7 +46,7 @@ std::string Color::toHexCode() {
     std::string red, green, blue;
     red = chanelToHexString(this->red);
     green = chanelToHexString(this->green);
-    blue = chanelToHexString(this->green);
+    blue = chanelToHexString(this->blue);
 
     return red + green + blue;
 }

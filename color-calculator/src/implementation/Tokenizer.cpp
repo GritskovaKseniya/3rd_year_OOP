@@ -1,4 +1,5 @@
 #include "../header/ColorCalculator.h"
+#include "../header/utils.h"
 
 #include <string>
 #include <algorithm>
@@ -26,12 +27,78 @@ Token Tokenizer::nextToken() {
     }
 
     if (token.is_number() || token.is_bracket()) {
-        return Token("UNKNOWN");
+        return Token("NUMBER OR BRACKET");
     }
 
-    if (token.get_unknown() != "rgb") {
-        // TODO: Construct Color from string
+    std::string unknownValue = token.get_unknown();
+
+    if (unknownValue != "rgb") {
+
+        if (startsWith("\"", unknownValue) || startsWith("'", unknownValue)) { // If unknownValue is a Color's name
+            std::string colorName = unknownValue.substr(1, unknownValue.length()-2);
+            libs__Colors::Color empty;
+            libs__Colors::Color result = empty + colorName;
+
+            if (&result == &empty) { // Error when summation. Color's name doesn't exist
+                return Token(unknownValue);
+            }
+
+            return Token(result);
+        } else {
+            return Token(unknownValue);
+        }
+
     }
 
-    // TODO: Construct color Token from  string like "rgb(255, 255, 255)"
+    // Construct color Token from  string like "rgb(255, 255, 255)"
+
+    token = tokenizer.next_token();
+
+    if (!token.is_bracket()) {
+        return Token("Expected Bracket");
+    }
+
+    token = tokenizer.next_token();
+
+    if (!token.is_number() || token.get_number() > 255) {
+        return Token("Incorrect Number");
+    }
+
+    short red = token.get_number();
+
+    token = tokenizer.next_token();
+
+    if (!(token.get_unknown() == ",")) {
+        return Token("Expected ','");
+    }
+
+    token = tokenizer.next_token();
+
+    if (!token.is_number() || token.get_number() > 255) {
+        return Token("Incorrect Number");
+    }
+
+    short green = token.get_number();
+
+    token = tokenizer.next_token();
+
+    if (!(token.get_unknown() == ",")) {
+        return Token("Expected ','");
+    }
+
+    token = tokenizer.next_token();
+
+    if (!token.is_number() || token.get_number() > 255) {
+        return Token("Incorrect Number");
+    }
+
+    short blue = token.get_number();
+
+    token = tokenizer.next_token();
+
+    if (!token.is_bracket()) {
+        return Token("Expected ')'");
+    }
+
+    return Token(libs__Colors::Color(red, green, blue));
 }

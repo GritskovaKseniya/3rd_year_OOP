@@ -54,6 +54,8 @@ class Token {
 
         std::string getUnknownValue();
 
+        std::string debug();
+
     private:
 
         TokenType type;
