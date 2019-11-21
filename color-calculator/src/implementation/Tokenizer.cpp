@@ -36,10 +36,15 @@ Token Tokenizer::nextToken() {
 
         if (startsWith("\"", unknownValue) || startsWith("'", unknownValue)) { // If unknownValue is a Color's name
             std::string colorName = unknownValue.substr(1, unknownValue.length()-2);
-            libs__Colors::Color empty;
-            libs__Colors::Color result = empty + colorName;
+            libs__Colors::Color black;
 
-            if (&result == &empty) { // Error when summation. Color's name doesn't exist
+            if (colorName == "black") {
+                return Token(black);
+            }
+
+            libs__Colors::Color result = black + colorName;
+
+            if (result == libs__Colors::colors::BLACK) { // Error when summation. Color's name doesn't exist
                 return Token(unknownValue);
             }
 
