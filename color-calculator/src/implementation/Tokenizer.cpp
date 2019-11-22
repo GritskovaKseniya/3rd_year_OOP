@@ -23,7 +23,13 @@ Token Tokenizer::nextToken() {
     }
 
     if (token.is_oper()) {
-        return Token(token.get_oper());
+        char operation = token.get_oper();
+
+        if (operation == '+' || operation == '-') {
+            return Token(operation);
+        } else {
+            return Token("'*' and '/' not supported");
+        }
     }
 
     if (token.is_number() || token.is_bracket()) {
@@ -34,7 +40,7 @@ Token Tokenizer::nextToken() {
 
     if (unknownValue != "rgb") {
 
-        if (startsWith("\"", unknownValue) || startsWith("'", unknownValue)) { // If unknownValue is a Color's name
+        if (startsWith("\"", unknownValue) || startsWith("'", unknownValue)) { // If Unknown value is a Color's name
             std::string colorName = unknownValue.substr(1, unknownValue.length()-2);
             libs__Colors::Color black;
 
@@ -49,7 +55,7 @@ Token Tokenizer::nextToken() {
             }
 
             return Token(result);
-        } else {
+        } else { // Unknown value not color's name and not rgb function
             return Token(unknownValue);
         }
 

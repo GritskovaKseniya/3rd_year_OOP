@@ -14,7 +14,15 @@ int main()
     std::string expr;
     getline(std::cin, expr);
     
-    TestTokenizer(expr);
+    // TestTokenizer(expr);
+
+    ParseResult result = eval(expr);
+    
+    if (result.isError()) {
+        std::cout << "ERROR: " << result.getError() << std::endl;
+    } else {     
+        std::cout << "Result is " << result.getResult().toHexCode() << std::endl;
+    }
     
     return 0;
 }

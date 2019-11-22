@@ -80,6 +80,4 @@ class Tokenizer {
         libs__ExpressionAnalyserSt::Tokenizer tokenizer = libs__ExpressionAnalyserSt::Tokenizer("");
 };
 
-bool applyOp(char op, libs__Colors::Color first, libs__Colors::Color second, libs__Colors::Color& result);
-
 ParseResult eval(std::string expression);

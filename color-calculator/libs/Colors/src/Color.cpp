@@ -91,6 +91,15 @@ Color Color::operator-(const Color &color) {
     return Color(red, green, blue);
 }
 
+Color Color::operator-(const std::string &name) {
+    if (STRING_TO_COLOR.count(name) == 0) {
+        std::cerr << "Color " << name << " doesn't exist. Please use Color class" << std::endl;
+        return *this;
+    }
+
+    return *this - STRING_TO_COLOR.at(name);
+}
+
 Color Color::operator=(const Color &color) {
     if (this != &color) {
         this->red = color.red;

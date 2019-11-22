@@ -4,39 +4,13 @@
 
 using namespace libs__ExpressionAnalyserSt;
 
+bool apply_op(char op, double num1, double num2, double* result);
+
 ParseResult read_term(Tokenizer* tokenizer);
 
 ParseResult read_number_or_brackets(Tokenizer* tokenizer);
 
-ParseResult libs__ExpressionAnalyserSt::eval(std::string expr);
-
 ParseResult eval(Tokenizer* tokenizer);
-
-ParseResult eval(std::string expr)
-{
-    /*
-     * Грамматика
-     * 
-     * Expression = Term [op Term]*
-     * op = '+' | '-'
-     * Term = ['+' | '-']NumberOR ['*' | '/' NumberOR]
-     * NumberOR = Number | '('Expression')'
-     * Number = Digit+[.Digit+]
-     * Digit = '0' | '1' | ... | '8' | '9'
-     * 
-     * (где [] - необязательная часть выражения
-     * something* - выражение something может повторяться 0 и более раз
-     * something+ - выражение something должно быть - по крайней мере 1 раз. Но можно и много раз подряд.
-     * )
-    */
-    
-    // Токенайзер считывает строку "по словам (лексемам)"
-    Tokenizer tok = Tokenizer(expr);
-    ParseResult result = eval(&tok);
-    tok.push_back();
-
-    return tok.next_token().is_empty() ? result : ParseResult("Error");
-}
 
 ParseResult eval(Tokenizer* tokenizer) {
     ParseResult t1 = read_term(tokenizer);
@@ -86,7 +60,7 @@ ParseResult eval(Tokenizer* tokenizer) {
     return ParseResult(result);
 }
 
-bool libs__ExpressionAnalyserSt::apply_op(char op, double num1, double num2, double* result)
+bool apply_op(char op, double num1, double num2, double* result)
 {
     switch (op)
     {

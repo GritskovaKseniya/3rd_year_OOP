@@ -66,6 +66,16 @@ class Color {
         Color operator-(const Color &color);
 
         /**
+         * Substracts from this color the string like "red"
+         * Supports all colors from colors namespace
+         * If color not supported, returns this color and prints error
+         * 
+         * @param name String with color name (For example: "green")
+         * @return Result color or this color in case of error
+        */
+        Color operator-(const std::string &name);
+
+        /**
          * Assigns given color to this
          * 
          * @param color Color, that is assigned
